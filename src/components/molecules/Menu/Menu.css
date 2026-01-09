@@ -1,0 +1,10 @@
+.dashboardLayout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboardContent {
+  flex: 1;              /* content grows */
+  padding-bottom: 16px;
+}

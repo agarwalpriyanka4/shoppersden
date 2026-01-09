@@ -1,0 +1,9 @@
+.title {
+     font-size: 32px;
+    font-weight: bold;
+    background-image: linear-gradient(to right,violet,red,green,yellow,indigo,blue);
+    background-clip: text;
+    color: transparent;
+     padding-right: 10px;
+     width: 25%;
+}

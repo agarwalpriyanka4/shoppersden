@@ -1,0 +1,8 @@
+.shopper-header {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;    
+    background-color: #f8f8f8;
+    margin-left: 3%;
+    width: 80%;
+}
