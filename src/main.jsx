@@ -6,12 +6,15 @@ import AppComponent from './App.jsx'
 import { Provider } from 'react-redux';
 import store from './redux/store/store.jsx';
 import {AuthProvider} from './components/molecules/AuthProvider/AuthProvider.jsx';
+import { CartProvider } from './components/molecules/CartContext/CartContext.jsx'
 createRoot(document.getElementById('ecommerce-root')).render(
   <StrictMode>
    <BrowserRouter>
    <AuthProvider>
    <Provider store={store}>
-     <AppComponent/>
+     <CartProvider>        {/* ✅ ADD THIS */}
+        <AppComponent />
+      </CartProvider>
     </Provider>
     </AuthProvider>
    </BrowserRouter> 

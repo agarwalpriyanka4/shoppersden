@@ -6,6 +6,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
+import { useCart } from '../CartContext/CartContext.jsx';
 
 
 
@@ -27,6 +28,7 @@ function Electronics(){
   let endIndex=0;
 
   const itemsPerPage = 5;
+  const { addToCart } = useCart();
 
   React.useEffect(() => {
     axios.get(api_url).then(response => { 
@@ -153,9 +155,13 @@ console.log("Filtered Electronics data fetched:", filteredElectronics);
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <Button size="small" color="primary">
-                    Buy Now
+                  <Button size="small" color="primary" onClick={(e) => {
+                    e.stopPropagation(); // prevents dialog open
+                    console.log('Adding to cart:', electronics);
+                    addToCart(electronics);}}>
+                    Add to Cart
                   </Button>
+
                 </CardActions>
               </Card>
             </Grid>
@@ -207,8 +213,7 @@ console.log("Filtered Electronics data fetched:", filteredElectronics);
 
       <DialogActions>
         <Button onClick={handleCloseDialog}>Close</Button>
-        <Button variant="contained" color="primary">
-          Buy Now
+        <Button variant="contained" onClick={() => addToCart(selectedItem)}>  Add to Cart
         </Button>
       </DialogActions>
     </>

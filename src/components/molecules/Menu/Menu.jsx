@@ -3,9 +3,16 @@ import { Box, Tab } from "@mui/material";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Footer from "../Footer/Footer.jsx";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { Badge, IconButton } from "@mui/material";
+import CartDrawer from "../CartDrawer/CartDrawer.jsx";
+import { useCart } from "../CartContext/CartContext.jsx";
+
 export default function DashboardTabs() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { totalQuantity } = useCart();
+  const [openCart, setOpenCart] = useState(false);
 
   // ✅ Top tab route mapping
   const topRoutes = {
@@ -89,20 +96,58 @@ export default function DashboardTabs() {
   }}>
       {/* ✅ TOP TAB CONTEXT */}
       <TabContext value={topValue}>
-        <Box sx={{ borderBottom: 1, borderColor: "divider", ml: "200px" }}>
-          <TabList
-            orientation="horizontal"
-            variant="scrollable"
-            onChange={handleTopChange}
-          >
-            <Tab label="Home" value="1" />
-            <Tab label="Admin" value="2" />
-            <Tab label="Product List View" value="10" />
-            <Tab label="Accounts" value="3" />
-            <Tab label="FAQ's" value="4" />
-            <Tab label="Help" value="5" />
-          </TabList>
-        </Box>
+        <Box
+  sx={{
+    borderBottom: 1,
+    borderColor: "divider",
+    ml: "200px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    pr: 2
+  }}
+>
+  {/* Tabs */}
+  <TabList
+    orientation="horizontal"
+    variant="scrollable"
+    onChange={handleTopChange}
+  >
+    <Tab label="Home" value="1" />
+    <Tab label="Admin" value="2" />
+    <Tab label="Product List View" value="10" />
+    <Tab label="Accounts" value="3" />
+    <Tab label="FAQ's" value="4" />
+    <Tab label="Help" value="5" />
+  </TabList>
+
+  {/* Cart Icon */}
+  <IconButton
+    onClick={() => setOpenCart(true)}
+    sx={{
+      ml: 2,
+      transform: "scale(1.2)" // 🔥 makes icon bigger
+    }}
+  >
+    <Badge
+      badgeContent={totalQuantity}
+      color="error"
+      overlap="circular"
+      sx={{
+        "& .MuiBadge-badge": {
+          fontSize: "0.75rem",
+          height: 20,
+          minWidth: 20
+        }
+      }}
+    >
+      <ShoppingCartIcon fontSize="large" />
+    </Badge>
+  </IconButton>
+
+  <CartDrawer open={openCart} onClose={() => setOpenCart(false)} />
+</Box>
+
       </TabContext>
 
       {/* ✅ LEFT TAB CONTEXT */}
