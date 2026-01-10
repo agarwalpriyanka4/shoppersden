@@ -10,6 +10,7 @@ import Admin from './components/molecules/Admin/Admin.jsx';
 import Books from './components/molecules/Books/Books.jsx';
 import Clothing from './components/molecules/Clothing/Clothing.jsx';
 import Gifts from './components/molecules/Gifts/Gifts.jsx';
+import Electronics from './components/molecules/Electronics/Electronics.jsx';
 import FAQ from './components/molecules/FAQ/FAQ.jsx';
 import Help from './components/molecules/Help/Help.jsx';
 import Home from './components/molecules/Home/Home.jsx';
@@ -60,6 +61,7 @@ function App() {
              <Route path="help" element={<Help />} />
              <Route path="home" element={<Home />} />
              <Route path="sports" element={<Sports />} />
+             <Route path="electronics" element={<Electronics />} />
             </Route>
            {/*  <Route path="/profile" element={<ProtectedRoute isLoggedIn={isLoggedIn}><Registration newUserState={setNewUser} /></ProtectedRoute>} /> */}
             <Route path="*" element={<Page404 />} />

@@ -23,6 +23,7 @@ export default function DashboardTabs() {
     "/dashboard/gifts": "7",
     "/dashboard/clothing": "8",
     "/dashboard/sports": "9",
+    "/dashboard/electronics": "11",
   };
 
   const [topValue, setTopValue] = useState("1");
@@ -71,6 +72,7 @@ export default function DashboardTabs() {
       "7": "gifts",
       "8": "clothing",
       "9": "sports",
+      "11": "electronics",
     };
 
    navigate(tabToRoute[newValue]);
@@ -116,6 +118,7 @@ export default function DashboardTabs() {
               <Tab label="Gifts" value="7" />
               <Tab label="Clothing" value="8" />
               <Tab label="Sports" value="9" />
+              <Tab label="Electronics" value="11" />
             </TabList>
           </Box>
         </TabContext>
