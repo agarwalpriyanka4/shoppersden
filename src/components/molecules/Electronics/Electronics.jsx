@@ -2,6 +2,11 @@ import React from 'react';
 import { Card, CardContent, CardMedia, Typography, Grid, CardActions, Box,Button,TextField,Pagination,Stack, FormControl, Select, MenuItem } from '@mui/material';
 import './Electronics.css';
 import axios from 'axios';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+
 
 
 function Electronics(){
@@ -13,6 +18,9 @@ function Electronics(){
   const [page, setPage] = React.useState(1);
   const [searchTerm, setSearchTerm] = React.useState('');
   const [sortBy, setSortBy] = React.useState('nameAsc'); // 'price-asc' or 'price-desc'
+  const [openDialog, setOpenDialog] = React.useState(false);
+  const [selectedItem, setSelectedItem] = React.useState(null);
+
   let slicedItems=0;
   let pageCount=0;
   let startIndex=0;
@@ -78,6 +86,15 @@ console.log("Filtered Electronics data fetched:", filteredElectronics);
     return 0;
   });
   console.log("Sorted Electronics data fetched:", sortedElectronics);
+  const handleOpenDialog = (item) => {
+  setSelectedItem(item);
+  setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+  setOpenDialog(false);
+  setSelectedItem(null);
+  };
 
   if (electronics.length > 0) {
     pageCount = Math.ceil(sortedElectronics.length / itemsPerPage);
@@ -116,7 +133,8 @@ console.log("Filtered Electronics data fetched:", filteredElectronics);
         ) : (
           slicedItems.map((electronics) => (
             <Grid item xs={12} sm={6} md={4} lg={3} key={electronics.id}>
-              <Card className="electronics-card">
+              <Card className="electronics-card" sx={{ cursor: 'pointer' }} 
+              onClick={() => handleOpenDialog(electronics)} >
                 <CardMedia
                   component="img"
                   height="200"
@@ -152,6 +170,50 @@ console.log("Filtered Electronics data fetched:", filteredElectronics);
           color="primary" 
         />
       </Stack>
+      <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
+  {selectedItem && (
+    <>
+      <DialogTitle>{selectedItem.name}</DialogTitle>
+
+      <DialogContent>
+        <CardMedia
+          component="img"
+          height="300"
+          image={selectedItem.image}
+          alt={selectedItem.name}
+          sx={{ objectFit: 'cover', mb: 2 }}
+        />
+
+        <Typography variant="subtitle1" gutterBottom>
+          Category: {selectedItem.category}
+        </Typography>
+
+        <Typography variant="subtitle1" gutterBottom>
+          Price: ${selectedItem.price}
+        </Typography>
+
+        <Typography variant="body2" gutterBottom>
+          {selectedItem.description}
+        </Typography>
+
+        <Typography
+          variant="body2"
+          color={selectedItem.inStock ? 'green' : 'red'}
+          sx={{ mt: 1 }}
+        >
+          {selectedItem.inStock ? 'In Stock' : 'Out of Stock'}
+        </Typography>
+      </DialogContent>
+
+      <DialogActions>
+        <Button onClick={handleCloseDialog}>Close</Button>
+        <Button variant="contained" color="primary">
+          Buy Now
+        </Button>
+      </DialogActions>
+    </>
+  )}
+</Dialog>
     </div>
   );
 }
