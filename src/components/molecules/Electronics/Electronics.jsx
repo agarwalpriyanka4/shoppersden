@@ -33,7 +33,7 @@ function Electronics(){
   React.useEffect(() => {
     axios.get(api_url).then(response => { 
       setElectronics(Array.isArray(response.data.data) ? response.data.data : []);
-        console.log("Electronics data fetched:", response.data);
+       /* console.log("Electronics data fetched:", response.data); */
         setLoading(false);
     }).catch(error => {
       console.error('Error fetching electronics with axios:', error);
@@ -77,7 +77,7 @@ function Electronics(){
     const desc = (electronics.description ?? '').toString().toLowerCase();
     return name.includes(searchTerm.toLowerCase()) || desc.includes(searchTerm.toLowerCase());
   });
-console.log("Filtered Electronics data fetched:", filteredElectronics);
+ /*console.log("Filtered Electronics data fetched:", filteredElectronics); */
   // Sorting
   const sortedElectronics = filteredElectronics.sort((a, b) => {
     if (sortBy === 'nameAsc') {
@@ -87,7 +87,7 @@ console.log("Filtered Electronics data fetched:", filteredElectronics);
     } 
     return 0;
   });
-  console.log("Sorted Electronics data fetched:", sortedElectronics);
+  /*console.log("Sorted Electronics data fetched:", sortedElectronics); */
   const handleOpenDialog = (item) => {
   setSelectedItem(item);
   setOpenDialog(true);
@@ -147,18 +147,24 @@ console.log("Filtered Electronics data fetched:", filteredElectronics);
                   <Typography variant="h6" component="div">
                     {electronics.name}
                   </Typography>
-                  <Typography variant="body2" color="text.secondary">
+                  {/* <Typography variant="body2" color="text.secondary">
                     {electronics.description}
-                  </Typography>
+                  </Typography> */}
                   <Typography variant="subtitle1" color="text.primary">
                     Price: ${electronics.price}
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <Button size="small" color="primary" onClick={(e) => {
-                    e.stopPropagation(); // prevents dialog open
-                    console.log('Adding to cart:', electronics);
-                    addToCart(electronics);}}>
+                  <Button
+                    size="small"
+                    color="primary"
+                    disabled={!electronics.inStock}
+                    onClick={(e) => {
+                      e.stopPropagation(); // prevents dialog open
+                      console.log('Adding to cart:', electronics);
+                      addToCart(electronics);
+                    }}
+                  >
                     Add to Cart
                   </Button>
 
@@ -213,7 +219,12 @@ console.log("Filtered Electronics data fetched:", filteredElectronics);
 
       <DialogActions>
         <Button onClick={handleCloseDialog}>Close</Button>
-        <Button variant="contained" onClick={() => addToCart(selectedItem)}>  Add to Cart
+        <Button
+          variant="contained"
+          disabled={!selectedItem?.inStock}
+          onClick={() => addToCart(selectedItem)}
+        >
+          Add to Cart
         </Button>
       </DialogActions>
     </>
